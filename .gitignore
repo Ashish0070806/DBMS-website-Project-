@@ -1,0 +1,28 @@
+# =====================================================
+#  O2 GYM OS — .gitignore
+# =====================================================
+
+# --- Sensitive Config (DB credentials etc.) ---
+api/db.php
+
+# --- PHP logs ---
+*.log
+error_log
+
+# --- OS junk ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- IDE / Editor ---
+.vscode/
+.idea/
+*.suo
+*.user
+
+# --- Node (if used) ---
+node_modules/
+
+# --- Temp / cache ---
+*.tmp
+*.cache
