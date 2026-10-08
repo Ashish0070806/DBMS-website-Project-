@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 90" width="320" height="90">
+  <defs>
+    <style>
+      .o2-circle {
+        fill: none;
+        stroke: #5b9ea8;
+        stroke-width: 14;
+      }
+      .o2-sub {
+        fill: #5b9ea8;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-weight: 700;
+        font-size: 32px;
+      }
+      .fitness-label {
+        fill: #8a9ba8;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-weight: 600;
+        font-size: 36px;
+        letter-spacing: 5px;
+      }
+    </style>
+  </defs>
+  
+  <!-- Outer O Circle -->
+  <circle cx="48" cy="45" r="32" class="o2-circle" />
+  
+  <!-- Subscript 2 -->
+  <text x="82" y="70" class="o2-sub">2</text>
+  
+  <!-- FITNESS text -->
+  <text x="115" y="58" class="fitness-label">FITNESS</text>
+</svg>

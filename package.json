@@ -1,0 +1,11 @@
+{
+  "name": "o2-gym-os",
+  "version": "2.0.0",
+  "description": "O2 Fitness Operations Terminal & Database Suite",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["gym", "terminal", "management"],
+  "author": "",
+  "license": "ISC"
+}

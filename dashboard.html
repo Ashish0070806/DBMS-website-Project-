@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>O₂ Fitness - Enterprise Operations Terminal</title>
+  <link rel="stylesheet" href="terminal.css">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+</head>
+<body>
+
+  <!-- Background Dots Grid -->
+  <div class="bg-dots"></div>
+
+  <!-- Terminal Device Shell (Bezel Frame) -->
+  <div class="terminal-shell">
+
+    <!-- =====================================================================
+         Left Sidebar
+         ===================================================================== -->
+    <aside class="terminal-sidebar">
+      <div>
+        <!-- Brand Header -->
+        <div class="sidebar-brand">
+          <img src="logo.svg" alt="O₂ FITNESS" class="brand-logo-img">
+        </div>
+
+        <!-- Operations Modules Menu -->
+        <div class="sidebar-nav-section">
+          <div class="nav-section-title">Operations Modules</div>
+          <ul class="sidebar-nav-list">
+            
+            <!-- 1. MEMBERS -->
+            <li class="nav-tab-item active" data-module="members">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <span>MEMBERS</span>
+            </li>
+
+            <!-- 2. ATTENDANCE -->
+            <li class="nav-tab-item" data-module="attendance">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+              </svg>
+              <span>ATTENDANCE</span>
+            </li>
+
+            <!-- 3. MEMBERSHIPS -->
+            <li class="nav-tab-item" data-module="memberships">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+              <span>MEMBERSHIPS</span>
+            </li>
+
+            <!-- 4. PAYMENTS -->
+            <li class="nav-tab-item" data-module="payments">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                <line x1="1" y1="10" x2="23" y2="10"></line>
+              </svg>
+              <span>PAYMENTS</span>
+            </li>
+
+            <!-- 5. TRAINING -->
+            <li class="nav-tab-item" data-module="training">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 4v16M18 4v16M2 8h4M2 16h4M18 8h4M18 16h4M6 12h12"></path>
+              </svg>
+              <span>TRAINING</span>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+
+      <!-- Sidebar Footer (Staff Account & Sign Out) -->
+      <div class="sidebar-footer">
+        <div class="staff-session-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+          <div class="staff-session-info">
+            <span class="staff-label-bold">STAFF ACCOUNT</span>
+            <span class="staff-label-sub">Secure Session</span>
+          </div>
+        </div>
+
+        <button class="btn-signout" id="btnTerminalSignOut">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          SIGN OUT
+        </button>
+      </div>
+    </aside>
+
+    <!-- =====================================================================
+         Main Operational Area
+         ===================================================================== -->
+    <main class="terminal-main">
+      
+      <!-- Top Header Bar -->
+      <header class="terminal-topbar">
+        <div class="search-field-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input 
+            type="text" 
+            id="globalSearchInput" 
+            class="search-input-field" 
+            placeholder="Search members, payments, visits..."
+          >
+        </div>
+
+        <div class="topbar-indicators">
+          <div class="badge-live-ops" id="dbTriggerBadge" style="background: rgba(0, 255, 136, 0.12); border: 1px solid rgba(0, 255, 136, 0.4); color: #00ff88;" title="MySQL Database Reactive Triggers Active">
+            <span class="live-dot" style="background: #00ff88; box-shadow: 0 0 10px #00ff88;"></span>
+            <span id="dbTriggerStatusText">TRIGGERS: 5 ARMED (LIVE)</span>
+          </div>
+
+          <div class="badge-live-ops">
+            <span class="live-dot"></span>
+            <span>LIVE OPERATIONS</span>
+          </div>
+
+          <div class="badge-utc-sync" title="Indian Standard Time (IST UTC+05:30)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span id="topClockIst">IST SYNC ACTIVE (UTC+5:30)</span>
+          </div>
+
+          <div class="user-avatar-circle" title="Operator Profile">
+            <span>STF</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Scrollable Canvas Viewport -->
+      <div class="terminal-viewport">
+
+        <!-- ===============================================================
+             MODULE 1: MEMBERS (Active Members Roster)
+             =============================================================== -->
+        <section class="module-panel active" id="module-members">
+          
+          <div class="module-header-row">
+            <div>
+              <div class="module-breadcrumb">
+                <span style="color: var(--primary-red);">&#9679;</span> MEMBERS DIRECTORY
+              </div>
+              <h1 class="module-title">Active Members Roster</h1>
+              <p class="module-desc">
+                Manage gym members, profiles, emergency contacts, biometric status, and continuous registration telemetry.
+              </p>
+            </div>
+
+            <div class="module-actions-row">
+              <button class="btn-secondary-action" id="btnExportMembersCsv">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                EXPORT CSV
+              </button>
+
+              <button class="btn-primary-action" id="btnOpenAddMemberModal">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="8.5" cy="7" r="4"></circle>
+                  <line x1="20" y1="8" x2="20" y2="14"></line>
+                  <line x1="23" y1="11" x2="17" y2="11"></line>
+                </svg>
+                + ADD MEMBER
+              </button>
+            </div>
+          </div>
+
+          <!-- 4 KPIs Row -->
+          <div class="kpis-row">
+            <div class="kpi-box">
+              <div class="kpi-header">
+                <span class="kpi-tag">ACTIVE MEMBERS</span>
+                <div class="kpi-icon-small">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                </div>
+              </div>
+              <div class="kpi-number" id="kpiActiveMembersVal">1,284</div>
+              <div class="kpi-foot-text highlight">&#9650; +38 registered this month</div>
+            </div>
+
+            <div class="kpi-box">
+              <div class="kpi-header">
+                <span class="kpi-tag">NEW THIS WEEK</span>
+                <div class="kpi-icon-small">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle></svg>
+                </div>
+              </div>
+              <div class="kpi-number">24</div>
+              <div class="kpi-foot-text">&#9679; Onboarding intake 100% complete</div>
+            </div>
+
+            <div class="kpi-box">
+              <div class="kpi-header">
+                <span class="kpi-tag">RETENTION RATE</span>
+                <div class="kpi-icon-small">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline></svg>
+                </div>
+              </div>
+              <div class="kpi-number">91.4%</div>
+              <div class="kpi-bar"><div class="kpi-bar-fill" style="width: 91.4%;"></div></div>
+              <div class="kpi-foot-text" style="margin-top: 6px;">+2.1% YOY</div>
+            </div>
+
+            <div class="kpi-box">
+              <div class="kpi-header">
+                <span class="kpi-tag">CHECKED IN TODAY</span>
+                <div class="kpi-icon-small" style="color: var(--primary-red);">((&bull;))</div>
+              </div>
+              <div class="kpi-number">142</div>
+              <div class="kpi-foot-text" style="justify-content: space-between;">
+                <span>TURNSTILE A & B PEAK</span>
+                <span style="color: #cbd5e1;">Floor Capacity: 38%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filter & Search Row -->
+          <div class="filter-bar-row">
+            <div class="filter-input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" id="memberFilterInput" class="filter-input" placeholder="Filter by Member ID, Full Name, Phone, or Emergency...">
+            </div>
+
+            <div class="filter-pills-wrap">
+              <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-right: 6px;">FILTER:</span>
+              <button class="pill-filter-btn member-status-pill active" data-filter="ALL">ALL (1,284)</button>
+              <button class="pill-filter-btn member-status-pill" data-filter="ACTIVE">ACTIVE (1,192)</button>
+              <button class="pill-filter-btn member-status-pill" data-filter="EXPIRING">EXPIRING (64)</button>
+              <button class="pill-filter-btn member-status-pill" data-filter="SUSPENDED">SUSPENDED (28)</button>
+            </div>
+          </div>
+
+          <!-- Members Data Table -->
+          <div class="table-container">
+            <table class="terminal-table">
+              <thead>
+                <tr>
+                  <th>MEMBER ID</th>
+                  <th>ATHLETE IDENTITY</th>
+                  <th>CONTACT & EMERGENCY</th>
+                  <th>DOB / SEX</th>
+                  <th>TIER / PLAN</th>
+                  <th>REG. DATE</th>
+                  <th>STATUS</th>
+                </tr>
+              </thead>
+              <tbody id="membersTableBody">
+                <!-- Injected by JavaScript -->
+              </tbody>
+            </table>
+
+            <!-- Pagination Row -->
+            <div class="pagination-row">
+              <div>
+                SHOWING <strong>1-6</strong> OF <strong>1,284</strong> ATHLETES &bull; ROWS: <strong>10</strong> &#9662;
+              </div>
+              <div class="page-controls">
+                <button class="page-btn">&lt;&lt;</button>
+                <button class="page-btn">&lt;</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <span style="padding: 0 4px;">...</span>
+                <button class="page-btn">129</button>
+                <button class="page-btn">&gt;</button>
+                <button class="page-btn">&gt;&gt;</button>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ===============================================================
+             MODULE 2: ATTENDANCE (Live Attendance & Check-in Desk)
+             =============================================================== -->
+        <section class="module-panel" id="module-attendance">
+          
+          <div class="module-header-row">
+            <div>
+              <div class="module-breadcrumb">
+                <span>&#9632;</span> ATTENDANCE & ACCESS CONTROL
+              </div>
+              <h1 class="module-title">Live Attendance & Check-In Desk</h1>
+              <p class="module-desc">
+                Real-time turnstile monitoring, member entry logs, and daily footfall traffic telemetry.
+              </p>
+            </div>
+
+            <div class="module-actions-row">
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-dark); padding: 6px 12px; border-radius: var(--radius-sm); font-size: 11.5px; font-weight: 700; color: var(--text-muted);">
+                TURNSTILES 1 & 2 ONLINE &bull; IST (UTC+05:30)
+              </div>
+            </div>
+          </div>
+
+          <!-- Scan Bar -->
+          <div class="scan-bar-container">
+            <input 
+              type="text" 
+              id="scanTurnstileInput" 
+              class="scan-input-box" 
+              placeholder="[::] Scan barcode, RFID fob, or enter Member ID (e.g. 02-8821)..."
+            >
+            <button class="btn-authorize" id="btnAuthorizeEntry">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="8.5" cy="7" r="4"></circle>
+                <polyline points="17 11 19 13 23 9"></polyline>
+              </svg>
+              AUTHORIZE ENTRY
+            </button>
+          </div>
+
+          <!-- 4 KPIs Row -->
+          <div class="kpis-row">
+            <div class="kpi-box">
+              <div class="kpi-header">
+                <span class="kpi-tag">IN THE GYM NOW</span>
+                <div class="kpi-icon-small">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                </div>
+              </div>
+              <div class="kpi-number" id="kpiGymCountVal">142 <span style="font-size: 14px; font-weight: 600; color: var(--text-muted);">ATHLETES</span></div>
+              <div class="kpi-foot-text">
+                <span>56.8% Max Capacity (250)</span>
+                <span style="color: var(--accent-green); font-weight: 700; margin-left: auto;">NORMAL</span>
+              </div>
+              <div class="kpi-bar"><div class="kpi-bar-fill" style="width: 56.8%;"></div></div>
+            </div>
+
+            <div class="kpi-box">
+              <div class="kpi-header">
+                <span class="kpi-tag">PEAK HOUR</span>
+                <div class="kpi-icon-small">&#9200;</div>
+              </div>
+              <div class="kpi-number">10:00 <span style="font-size: 14px; color: var(--text-muted);">AM</span></div>
+              <div class="kpi-foot-text">
+                <span>42 Check-ins logged</span>
+                <span style="color: var(--primary-red); margin-left: auto; font-weight: 700;">+18% VS AVG</span>
+              </div>
+            </div>
+
+            <div class="kpi-box">
+              <div class="kpi-header">
+                <span class="kpi-tag">TODAY'S VISITS</span>
+                <div class="kpi-icon-small">&#128200;</div>
+              </div>
+              <div class="kpi-number" id="kpiTodayVisitsVal">318 <span style="font-size: 14px; color: var(--text-muted);">ENTRIES</span></div>
+              <div class="kpi-foot-text">
+                <span>ER ATTENDANCE: synced</span>
+                <span style="color: var(--primary-red); margin-left: auto; font-weight: 700;">LIVE</span>
+              </div>
+            </div>
+
+            <div class="kpi-box">
+              <div class="kpi-header">
+                <span class="kpi-tag">AVG SESSION TIME</span>
+                <div class="kpi-icon-small">&#9201;</div>
+              </div>
+              <div class="kpi-number">68 <span style="font-size: 14px; color: var(--text-muted);">MINUTES</span></div>
+              <div class="kpi-foot-text">
+                <span>Optimal flow threshold</span>
+                <span style="color: var(--accent-green); margin-left: auto; font-weight: 700;">STABLE</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Two Column Grid: Weekly Footfall Chart + Recent Check-ins Feed -->
+          <div class="two-panel-grid">
+            
+            <!-- Left: Weekly Footfall Chart -->
+            <div class="chart-panel">
+              <div class="chart-header">
+                <div>
+                  <h3 style="font-size: 15px; font-weight: 800; color: #fff;">WEEKLY FOOTFALL</h3>
+                  <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Member visits across the last seven days</div>
+                </div>
+                <div style="font-size: 11px; font-weight: 800; color: var(--primary-red); letter-spacing: 0.5px;">
+                  PEAK: SATURDAY
+                </div>
+              </div>
+
+              <!-- Bar Chart Representation -->
+              <div class="bar-chart-container">
+                <div class="bar-column">
+                  <div class="bar-fill-shape" style="height: 55%;"></div>
+                  <span class="bar-label-day">MON</span>
+                </div>
+                <div class="bar-column">
+                  <div class="bar-fill-shape" style="height: 68%;"></div>
+                  <span class="bar-label-day">TUE</span>
+                </div>
+                <div class="bar-column">
+                  <div class="bar-fill-shape" style="height: 60%;"></div>
+                  <span class="bar-label-day">WED</span>
+                </div>
+                <div class="bar-column">
+                  <div class="bar-fill-shape" style="height: 75%;"></div>
+                  <span class="bar-label-day">THU</span>
+                </div>
+                <div class="bar-column">
+                  <div class="bar-fill-shape" style="height: 70%;"></div>
+                  <span class="bar-label-day">FRI</span>
+                </div>
+                <div class="bar-column">
+                  <div class="bar-fill-shape peak-spike" style="height: 95%;">
+                    <span class="bar-spike-tag">528</span>
+                  </div>
+                  <span class="bar-label-day" style="color: var(--primary-red);">SAT</span>
+                </div>
+                <div class="bar-column">
+                  <div class="bar-fill-shape" style="height: 48%;"></div>
+                  <span class="bar-label-day">SUN</span>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-muted);">
+                <div style="display: flex; gap: 12px;">
+                  <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; background: var(--primary-red); display: inline-block;"></span> PEAK SPIKE</span>
+                  <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; background: #242c3d; display: inline-block;"></span> WEEKDAY ROUTINE</span>
+                  <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; background: #3b82f6; display: inline-block;"></span> CURRENT LIVE</span>
+                </div>
+                <div style="font-weight: 700; color: #cbd5e1;">Total 7D Traffic: 2,563</div>
+              </div>
+            </div>
+
+            <!-- Right: Recent Check-ins Queue -->
+            <div class="chart-panel">
+              <div class="chart-header">
+                <div>
+                  <h3 style="font-size: 15px; font-weight: 800; color: #fff;">RECENT CHECK-INS</h3>
+                  <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Real-time turnstile verification queue</div>
+                </div>
+                <div style="font-size: 11px; font-weight: 800; color: var(--primary-red);">
+                  AUTO-POLL &#9679;
+                </div>
+              </div>
+
+              <div class="checkin-feed-list" id="recentCheckinsList">
+                <!-- Injected by JavaScript -->
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; font-size: 11px; color: var(--text-muted); font-family: monospace;">
+                <span>TURNSTILE LOG #9104-LIVE</span>
+                <span style="color: var(--primary-red); cursor: pointer;" onclick="showToast('Turnstile logs archived')">ARCHIVE CLEARED</span>
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- ===============================================================
+             MODULE 3: MEMBERSHIPS (Plans & Subscriptions)
+             =============================================================== -->
+        <section class="module-panel" id="module-memberships">
+          
+          <div class="module-header-row">
+            <div>
+              <div class="module-breadcrumb">
+                <span>&#9679;</span> MEMBERSHIPS & CONTRACT PLANS
+              </div>
+              <h1 class="module-title">Membership Plans & Subscriptions</h1>
+              <p class="module-desc">
+                Configure tier plans, track recurring billing cycles, renewals, and expiration alerts.
+              </p>
+            </div>
+
+            <div class="module-actions-row">
+              <button class="btn-secondary-action" onclick="showToast('Audit log: 4 tier configurations synced with MySQL')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="4" y1="21" x2="4" y2="14"></line>
+                  <line x1="4" y1="10" x2="4" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12" y2="3"></line>
+                  <line x1="20" y1="21" x2="20" y2="16"></line>
+                  <line x1="20" y1="12" x2="20" y2="3"></line>
+                </svg>
+                AUDIT LOG
+              </button>
+
+              <button class="btn-primary-action" onclick="openModal('modalCreatePlan')">
+                + CREATE NEW PLAN
+              </button>
+            </div>
+          </div>
+
+          <!-- 4 KPIs Row -->
+          <div class="kpis-row">
+            <div class="kpi-box">
+              <div class="kpi-header"><span class="kpi-tag">ACTIVE SUBSCRIPTIONS</span><div class="kpi-icon-small">&#128737;</div></div>
+              <div class="kpi-number">1,142</div>
+              <div class="kpi-foot-text highlight">&#9650; +4.2% THIS MONTH</div>
+            </div>
+
+            <div class="kpi-box">
+              <div class="kpi-header"><span class="kpi-tag">EXPIRING IN 7 DAYS</span><div class="kpi-icon-small" style="color: var(--primary-red);">&#128276;</div></div>
+              <div class="kpi-number">29</div>
+              <div class="kpi-foot-text" style="color: var(--primary-red); font-weight: 700;">URGENT RENEWAL REQUIRED</div>
+            </div>
+
+            <div class="kpi-box">
+              <div class="kpi-header"><span class="kpi-tag">AVERAGE PLAN VALUE</span><div class="kpi-icon-small">&#128181;</div></div>
+              <div class="kpi-number">&#8377;3,450 <span style="font-size: 14px; color: var(--text-muted);">/ MO</span></div>
+              <div class="kpi-foot-text">&#8599; BLENDED CONTRACT ARPU</div>
+            </div>
+
+            <div class="kpi-box">
+              <div class="kpi-header"><span class="kpi-tag">RETENTION RATE</span><div class="kpi-icon-small">&#8635;</div></div>
+              <div class="kpi-number">88.9%</div>
+              <div class="kpi-foot-text success">&#9679; BENCHMARK TOP 5%</div>
+            </div>
+          </div>
+
+          <!-- Section: Active Tier Configurations -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <div style="font-size: 13px; font-weight: 800; color: #fff; letter-spacing: 0.5px; border-left: 3px solid var(--primary-red); padding-left: 8px;">
+              ACTIVE TIER CONFIGURATIONS (PLAN ENTITY)
+            </div>
+            <div id="publishedTiersCount" style="font-size: 11px; color: var(--text-muted); font-weight: 700;">4 PUBLISHED TIERS</div>
+          </div>
+
+          <!-- 4 Tier Cards (Configured in INR ₹) -->
+          <div class="tiers-grid" id="tiersGridContainer">
+            
+            <!-- Tier 1: Annual Platinum Ultra -->
+            <div class="tier-card">
+              <div>
+                <div class="tier-top-tag">
+                  <span class="tier-pill">TIER 01</span>
+                  <span class="tier-duration">12 MONTHS / YEARLY</span>
+                </div>
+                <div class="tier-title">Annual Platinum Ultra</div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 14px;">All club access + Thermal Recovery Zone + VIP privileges</div>
+                <div class="tier-price-row">&#8377;8,999 <span>/ YEAR</span></div>
+                <ul class="tier-features-list">
+                  <li><span style="color: var(--accent-green);">&#10003;</span> All Club Access</li>
+                  <li><span style="color: var(--accent-green);">&#10003;</span> Cold Plunge &amp; Sauna</li>
+                  <li><span style="color: var(--accent-green);">&#10003;</span> Dedicated Locker Storage</li>
+                  <li><span style="color: var(--accent-green);">&#10003;</span> Biometric Scan Protocol</li>
+                </ul>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-dark); padding-top: 12px; font-size: 11px;">
+                <span style="font-family: monospace; color: var(--text-muted);">PLAN_ID: PL-001</span>
+                <span style="color: var(--primary-red); font-weight: 700; cursor: pointer;" onclick="showToast('Edit mode: Annual Platinum Ultra (₹8,999)')">EDIT PLAN</span>
+              </div>
+            </div>
+
+            <!-- Tier 2: Semi Annual Pro -->
+            <div class="tier-card">
+              <div>
+                <div class="tier-top-tag">
+                  <span class="tier-pill" style="background: #2563eb;">TIER 02</span>
+                  <span class="tier-duration">6 MONTHS</span>
+                </div>
+                <div class="tier-title">Semi Annual Pro</div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 14px;">Access to weight room, cardio arena, &amp; locker vaults</div>
+                <div class="tier-price-row">&#8377;4,999 <span>/ 6 MONTHS</span></div>
+                <ul class="tier-features-list">
+                  <li><span style="color: var(--accent-green);">&#10003;</span> Weight Room Floor Access</li>
+                  <li><span style="color: var(--accent-green);">&#10003;</span> Full Cardio Arena Privileges</li>
+                  <li><span style="color: var(--accent-green);">&#10003;</span> Dedicated Locker Vault</li>
+                </ul>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-dark); padding-top: 12px; font-size: 11px;">
+                <span style="font-family: monospace; color: var(--text-muted);">PLAN_ID: PL-002</span>
+                <span style="color: var(--primary-red); font-weight: 700; cursor: pointer;" onclick="showToast('Edit mode: Semi Annual Pro (₹4,999)')">EDIT PLAN</span>
+              </div>
+            </div>
+
+            <!-- Tier 3: Monthly Plus+ -->
+            <div class="tier-card">
+              <div>
+                <div class="tier-top-tag">
+                  <span class="tier-pill" style="background: #059669;">TIER 03</span>
+                  <span class="tier-duration">MONTHLY</span>
+                </div>
+                <div class="tier-title">Monthly Plus+</div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 14px;">Standard access no lockers with no lock-in auto renews monthly</div>
+                <div class="tier-price-row">&#8377;2,999 <span>/ MONTH</span></div>
+                <ul class="tier-features-list">
+                  <li><span style="color: var(--accent-green);">&#10003;</span> Standard Gym Floor Access</li>
+                  <li><span style="color: var(--accent-green);">&#10003;</span> No Lock-in Contract</li>
+                  <li><span style="color: var(--accent-green);">&#10003;</span> Auto-renews Monthly</li>
+                  <li style="color: var(--text-muted);"><span style="color: #ef4444;">&#10005;</span> No Lockers Included</li>
+                </ul>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-dark); padding-top: 12px; font-size: 11px;">
+                <span style="font-family: monospace; color: var(--text-muted);">PLAN_ID: PL-003</span>
+                <span style="color: var(--primary-red); font-weight: 700; cursor: pointer;" onclick="showToast('Edit mode: Monthly Plus+ (₹2,999)')">EDIT PLAN</span>
+              </div>
+            </div>
+
+            <!-- Tier 4: Student Membership -->
+            <div class="tier-card">
+              <div>
+                <div class="tier-top-tag">
+                  <span class="tier-pill" style="background: #d97706;">STUDENT</span>
+                  <span class="tier-duration">28 DAYS PLAN</span>
+                </div>
+                <div class="tier-title">Student Membership</div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 14px;">It comes with the 28 days plan for students with valid ID</div>
+                <div class="tier-price-row">&#8377;899 <span>/ 28 DAYS</span></div>
+                <ul class="tier-features-list">
+                  <li><span style="color: var(--accent-green);">&#10003;</span> 28 Days Full Validity</li>
+                  <li><span style="color: var(--accent-green);">&#10003;</span> Valid Student ID Pass</li>
+                  <li><span style="color: var(--accent-green);">&#10003;</span> Full Strength Floor Pass</li>
+                  <li style="color: var(--text-muted);"><span style="color: #ef4444;">&#10005;</span> Locker Storage Excluded</li>
+                </ul>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-dark); padding-top: 12px; font-size: 11px;">
+                <span style="font-family: monospace; color: var(--text-muted);">PLAN_ID: PL-004</span>
+                <span style="color: var(--primary-red); font-weight: 700; cursor: pointer;" onclick="showToast('Edit mode: Student Membership (₹899)')">EDIT PLAN</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom: Expiring Memberships & Renewal Queue -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <div style="font-size: 13px; font-weight: 800; color: #fff; letter-spacing: 0.5px; border-left: 3px solid var(--primary-red); padding-left: 8px;">
+              EXPIRING MEMBERSHIPS &amp; RENEWAL QUEUE <span style="background: rgba(239, 68, 68, 0.2); color: #ef4444; font-size: 11px; padding: 2px 8px; border-radius: 4px; margin-left: 8px;">29 PENDING</span>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <input type="text" class="filter-input" placeholder="Filter member name / ID..." style="width: 220px;">
+              <button class="btn-secondary-action" id="btnBatchAlert">BATCH ALERT ALL</button>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="terminal-table">
+              <thead>
+                <tr>
+                  <th>MEMBER DETAILS</th>
+                  <th>PLAN ENROLLED</th>
+                  <th>START DATE</th>
+                  <th>EXPIRATION DATE</th>
+                  <th>COUNTDOWN</th>
+                  <th>STATUS</th>
+                  <th>ACTION DISPATCH</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="athlete-cell">
+                      <div class="initials-avatar">MN</div>
+                      <div>
+                        <div class="athlete-name">Marcus Nilsson</div>
+                        <div class="athlete-email" style="font-family: monospace;">MEM-9841 &bull; +91 98765 43210</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><strong>Annual Platinum Ultra (&#8377;8,999)</strong></td>
+                  <td style="color: var(--text-muted); font-size: 12px;">2025-10-14</td>
+                  <td style="color: var(--text-muted); font-size: 12px;">2026-10-14</td>
+                  <td>
+                    <span id="renewCountdownBadge" style="background: var(--primary-red); color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 4px;">
+                      2 DAYS LEFT
+                    </span>
+                  </td>
+                  <td><span class="status-pill expiring">EXPIRING</span></td>
+                  <td>
+                    <div style="display: flex; gap: 6px;">
+                      <button class="btn-secondary-action" id="btnSendSmsSingle" style="padding: 4px 10px; font-size: 11px;">SEND SMS</button>
+                      <button class="btn-primary-action" id="btnProcessRenewalSingle" style="padding: 4px 12px; font-size: 11px;">PROCESS RENEWAL</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </section>
+
+        <!-- ===============================================================
+             MODULE 4: PAYMENTS (Financial Ledger & Revenue Tracking)
+             =============================================================== -->
+        <section class="module-panel" id="module-payments">
+          
+          <div class="module-header-row">
+            <div>
+              <div class="module-breadcrumb">
+                <span>&#9679;</span> FINANCIAL LEDGER &amp; BILLING / GATEWAY ID: POS-02-CENTRAL
+              </div>
+              <h1 class="module-title">Payments &amp; Revenue Tracking</h1>
+              <p class="module-desc">
+                Monitor real-time subscription revenue, point-of-sale collections, and transaction audit trails across all facility terminals.
+              </p>
+            </div>
+
+            <div class="module-actions-row">
+              <button class="btn-secondary-action" id="btnExportShiftCsv">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                EXPORT SHIFT CSV
+              </button>
+
+              <button class="btn-primary-action" id="btnOpenLogPaymentModal">
+                + LOG MANUAL PAYMENT
+              </button>
+            </div>
+          </div>
+
+          <!-- 4 KPIs Row -->
+          <div class="kpis-row">
+            <div class="kpi-box">
+              <div class="kpi-header"><span class="kpi-tag">REVENUE COLLECTED TODAY</span><div class="kpi-icon-small">&#128179;</div></div>
+              <div class="kpi-number" id="kpiRevTodayVal">&#8377;17,896.00</div>
+              <div class="kpi-foot-text"><span>28 transactions verified</span><span style="color: var(--primary-red); font-weight: 700; margin-left: auto;">+8.4% SHIFT AVG</span></div>
+            </div>
+
+            <div class="kpi-box">
+              <div class="kpi-header"><span class="kpi-tag">MONTHLY RUN RATE</span><div class="kpi-icon-small">&#128200;</div></div>
+              <div class="kpi-number">&#8377;7,85,400.00</div>
+              <div class="kpi-foot-text"><span>+14.2% vs last month</span><span style="color: var(--text-muted); margin-left: auto;">CAP: &#8377;9,50,000</span></div>
+            </div>
+
+            <div class="kpi-box">
+              <div class="kpi-header"><span class="kpi-tag">GATEWAY SUCCESS RATE</span><div class="kpi-icon-small">&#9989;</div></div>
+              <div class="kpi-number">99.4%</div>
+              <div class="kpi-foot-text"><span>UPI / RuPay / NetBanking / POS</span><span style="color: var(--text-muted); margin-left: auto;">0.6% RETRY</span></div>
+            </div>
+
+            <div class="kpi-box">
+              <div class="kpi-header"><span class="kpi-tag">PENDING SETTLEMENTS</span><div class="kpi-icon-small" style="color: var(--primary-red);">&#128203;</div></div>
+              <div class="kpi-number">4 <span style="font-size: 14px; color: var(--text-muted);">invoices</span></div>
+              <div class="kpi-foot-text"><span>&#8377;31,500.00 awaiting capture</span><span style="color: var(--primary-red); font-weight: 700; margin-left: auto;">ACTION NEEDED</span></div>
+            </div>
+          </div>
+
+          <!-- Charts Grid: Daily Billing Velocity & Channel Share -->
+          <div class="two-panel-grid" style="margin-bottom: 24px;">
+            
+            <!-- Left Chart -->
+            <div class="chart-panel">
+              <div class="chart-header">
+                <div>
+                  <h3 style="font-size: 15px; font-weight: 800; color: #fff;">DAILY BILLING VELOCITY</h3>
+                  <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Hourly aggregated clearing over past 7 calendar days</div>
+                </div>
+                <div style="font-size: 11px; font-weight: 800; color: var(--primary-red);">
+                  WEEKLY ROLLING &bull; AUTO-RECONCILED
+                </div>
+              </div>
+
+              <!-- Bar chart -->
+              <div class="bar-chart-container" style="height: 180px;">
+                <div class="bar-column"><div class="bar-fill-shape" style="height: 48%;"></div><span class="bar-label-day">MON<br><span style="font-size: 10px; color: var(--text-dim);">&#8377;2.8L</span></span></div>
+                <div class="bar-column"><div class="bar-fill-shape" style="height: 58%;"></div><span class="bar-label-day">TUE<br><span style="font-size: 10px; color: var(--text-dim);">&#8377;3.4L</span></span></div>
+                <div class="bar-column"><div class="bar-fill-shape" style="height: 70%;"></div><span class="bar-label-day">WED<br><span style="font-size: 10px; color: var(--text-dim);">&#8377;4.1L</span></span></div>
+                <div class="bar-column"><div class="bar-fill-shape" style="height: 78%;"></div><span class="bar-label-day">THU<br><span style="font-size: 10px; color: var(--text-dim);">&#8377;4.6L</span></span></div>
+                <div class="bar-column"><div class="bar-fill-shape peak-spike" style="height: 100%;"></div><span class="bar-label-day" style="color: var(--primary-red);">FRI<br><span style="font-size: 10px; color: var(--primary-red);">&#8377;5.9L</span></span></div>
+                <div class="bar-column"><div class="bar-fill-shape" style="height: 64%;"></div><span class="bar-label-day">SAT<br><span style="font-size: 10px; color: var(--text-dim);">&#8377;3.8L</span></span></div>
+                <div class="bar-column"><div class="bar-fill-shape" style="height: 25%;"></div><span class="bar-label-day">SUN<br><span style="font-size: 10px; color: var(--text-dim);">&#8377;1.2L</span></span></div>
+              </div>
+            </div>
+
+            <!-- Right: Channel Share Progress Bars -->
+            <div class="chart-panel">
+              <div class="chart-header">
+                <div>
+                  <h3 style="font-size: 15px; font-weight: 800; color: #fff;">CHANNEL SHARE</h3>
+                  <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Distribution across payment gateways</div>
+                </div>
+                <div class="kpi-icon-small">&#127760;</div>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 18px; margin-top: 10px;">
+                <div>
+                  <div style="display: flex; justify-content: space-between; font-size: 12.5px; font-weight: 700; margin-bottom: 6px;">
+                    <span style="color: var(--primary-red);">&#9632; UPI &amp; AUTOPAY (RAZORPAY / PHONEPE)</span>
+                    <span style="color: #fff;">78%</span>
+                  </div>
+                  <div class="kpi-bar" style="height: 6px;"><div class="kpi-bar-fill" style="width: 78%;"></div></div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">&#8377;6,12,612.00 processed</div>
+                </div>
+
+                <div>
+                  <div style="display: flex; justify-content: space-between; font-size: 12.5px; font-weight: 700; margin-bottom: 6px;">
+                    <span style="color: #cbd5e1;">&#9632; FRONT DESK POS (RUPAY &amp; CARDS)</span>
+                    <span style="color: #fff;">14%</span>
+                  </div>
+                  <div class="kpi-bar" style="height: 6px;"><div class="kpi-bar-fill" style="width: 14%; background: #64748b;"></div></div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">&#8377;1,09,956.00 processed</div>
+                </div>
+
+                <div>
+                  <div style="display: flex; justify-content: space-between; font-size: 12.5px; font-weight: 700; margin-bottom: 6px;">
+                    <span style="color: #94a3b8;">&#9632; CASH REGISTER &amp; NEFT / IMPS</span>
+                    <span style="color: #fff;">8%</span>
+                  </div>
+                  <div class="kpi-bar" style="height: 6px;"><div class="kpi-bar-fill" style="width: 8%; background: #475569;"></div></div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">&#8377;62,832.00 reconciled</div>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-dark); padding-top: 14px; margin-top: 16px; font-size: 11px; color: var(--text-muted); font-family: monospace;">
+                <span>NPCI / BANK CLEARING BATCH #491</span>
+                <span style="color: var(--accent-green); font-weight: 700;">SYNCHRONIZED</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Transaction Filter Pills & Reconcile Button -->
+          <div class="filter-bar-row">
+            <div class="filter-pills-wrap">
+              <button class="pill-filter-btn payment-tab-pill active" data-cat="ALL">ALL (28)</button>
+              <button class="pill-filter-btn payment-tab-pill" data-cat="UPI">UPI &amp; AUTOPAY</button>
+              <button class="pill-filter-btn payment-tab-pill" data-cat="Card">CARDS &amp; POS</button>
+              <button class="pill-filter-btn payment-tab-pill" data-cat="Cash">CASH &amp; NETBANKING</button>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="font-size: 11.5px; color: var(--text-muted); font-family: monospace;">
+                &#128197; TODAY, IST 00:00 - 23:59 (UTC+05:30)
+              </div>
+              <button class="btn-secondary-action" onclick="showToast('Clearing batch reconciled with NPCI / Razorpay')">&#8635; RECONCILE</button>
+            </div>
+          </div>
+
+          <!-- Transactions Table -->
+          <div class="table-container">
+            <table class="terminal-table">
+              <thead>
+                <tr>
+                  <th>TRANSACTION REF</th>
+                  <th>MEMBER &amp; ID</th>
+                  <th>MEMBERSHIP PLAN</th>
+                  <th>METHOD</th>
+                  <th>AMOUNT (INR &#8377;)</th>
+                  <th>TIMESTAMP (IST)</th>
+                  <th>STATUS</th>
+                  <th>ACTION</th>
+                </tr>
+              </thead>
+              <tbody id="paymentsTableBody">
+                <!-- Injected by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+        </section>
+
+        <!-- ===============================================================
+             MODULE 5: TRAINING (Training & Workout Plans)
+             =============================================================== -->
+        <section class="module-panel" id="module-training">
+          
+          <div class="module-header-row">
+            <div>
+              <div class="module-breadcrumb">
+                <span>&#9679;</span> TRAINING &amp; ATHLETIC PROTOCOLS
+              </div>
+              <h1 class="module-title">Training &amp; Workout Plans</h1>
+              <p class="module-desc">
+                Assign certified trainers, build periodized workout plans, and track exercise execution across high-performance cohorts.
+              </p>
+            </div>
+
+            <div class="module-actions-row">
+              <button class="btn-secondary-action" onclick="showToast('Protocol filters set to Active Macrocycle')">
+                PROTOCOL FILTERS
+              </button>
+
+              <button class="btn-primary-action" onclick="openModal('modalCreateWorkout')">
+                + CREATE WORKOUT PLAN
+              </button>
+            </div>
+          </div>
+
+          <!-- 4 KPIs Row -->
+          <div class="kpis-row">
+            <div class="kpi-box">
+              <div class="kpi-header"><span class="kpi-tag">ACTIVE WORKOUTS</span><div class="kpi-icon-small">&#8599;</div></div>
+              <div class="kpi-number">18 <span style="font-size: 14px; color: var(--text-muted);">PLANS</span></div>
+              <div class="kpi-foot-text">Active cohort assignments</div>
+            </div>
+
+            <div class="kpi-box">
+              <div class="kpi-header"><span class="kpi-tag">TRAINERS ON DUTY</span><div class="kpi-icon-small">&#128100;</div></div>
+              <div class="kpi-number">9 <span style="font-size: 14px; color: var(--text-muted);">OF 14 FLOOR</span></div>
+              <div class="kpi-foot-text"><span>READY</span><span style="color: var(--text-muted); margin-left: auto;">5 on active scheduled rest</span></div>
+            </div>
+
+            <div class="kpi-box">
+              <div class="kpi-header"><span class="kpi-tag">EXERCISE CATALOG</span><div class="kpi-icon-small">&#128451;</div></div>
+              <div class="kpi-number">142 <span style="font-size: 14px; color: var(--text-muted);">MOVEMENTS</span></div>
+              <div class="kpi-foot-text">Verified biomechanical models</div>
+            </div>
+
+            <div class="kpi-box">
+              <div class="kpi-header"><span class="kpi-tag">CLIENT ADHERENCE</span><div class="kpi-icon-small">&#128200;</div></div>
+              <div class="kpi-number">94.2%</div>
+              <div class="kpi-foot-text success">+2.4% vs previous 30-day block</div>
+            </div>
+          </div>
+
+          <!-- Grid: Active High-Priority Plan & Certified Trainers Roster -->
+          <div class="two-panel-grid">
+            
+            <!-- Left: Active High-Priority Plan Details -->
+            <div class="chart-panel">
+              <div style="font-size: 11px; font-weight: 800; color: var(--primary-red); letter-spacing: 0.6px; margin-bottom: 6px;">
+                ACTIVE HIGH-PRIORITY PLAN [PLAN_ID: #WP-8842]
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+                <h2 style="font-size: 20px; font-weight: 800; color: #fff;">12-Week Hypertrophy &amp; Core Protocol</h2>
+                <div style="display: flex; gap: 8px;">
+                  <span style="background: rgba(255,255,255,0.05); font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; color: var(--text-muted);">MESOCYCLE 03</span>
+                  <span style="background: var(--primary-red); color: #fff; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 4px;">WEEK 8 / 12</span>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); border: 1px solid var(--border-dark); border-radius: var(--radius-md); padding: 14px; margin-bottom: 20px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <div class="initials-avatar">MV</div>
+                  <div>
+                    <div style="font-size: 11px; color: var(--text-muted);">MEMBER (MEMBER_ID: #M-1092)</div>
+                    <div style="font-weight: 700; color: #fff; font-size: 13.5px;">Marcus Vance</div>
+                    <div style="font-size: 11px; color: #60a5fa;">Tier: Elite Athlete</div>
+                  </div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <div class="initials-avatar" style="border-color: var(--primary-red);">MC</div>
+                  <div>
+                    <div style="font-size: 11px; color: var(--text-muted);">DIRECTOR (TRAINER_ID: #TR-04)</div>
+                    <div style="font-weight: 700; color: #fff; font-size: 13.5px;">Coach Marcus Chen</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">Biomechanics &amp; Power</div>
+                  </div>
+                </div>
+
+                <div style="text-align: right;">
+                  <div style="font-size: 11px; color: var(--text-muted);">VOLUME LOAD TARGET</div>
+                  <div style="font-size: 14px; font-weight: 800; color: var(--accent-green);">82% EXECUTED</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">End Date: Nov 28, 2026</div>
+                </div>
+              </div>
+
+              <!-- Prescribed Exercises Execution -->
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 11px; font-weight: 700; color: var(--text-muted);">
+                <span>PRESCRIBED EXERCISES EXECUTION (WORKOUT_EXERCISE)</span>
+                <span>ORDER 1-3 ACTIVE TODAY</span>
+              </div>
+
+              <!-- Exercise 01 -->
+              <div class="exercise-spec-card">
+                <div class="exercise-header-row">
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="order-badge">01</span>
+                    <div>
+                      <div style="font-size: 14px; font-weight: 800; color: #fff;">Barbell Back Squat</div>
+                      <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">QUADRICEPS / POSTERIOR &bull; OLYMPIC BARBELL</div>
+                    </div>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 14px;">
+                    <div style="text-align: right;">
+                      <div style="font-size: 13px; font-weight: 800; color: #fff;">5 SETS &times; 5 REPS</div>
+                      <div style="font-size: 11px; color: var(--primary-red); font-weight: 700;">165.0 KG (78% 1RM)</div>
+                    </div>
+                    <div class="exercise-check-box" style="width: 22px; height: 22px; border: 1.5px solid var(--primary-red); border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                      <span style="color: #fff; font-size: 12px; font-weight: 800;">&#10003;</span>
+                    </div>
+                  </div>
+                </div>
+                <div style="font-size: 11.5px; color: #94a3b8; background: rgba(0,0,0,0.25); padding: 8px 10px; border-radius: 6px; line-height: 1.4;">
+                  <strong>Directive:</strong> Maintain high bar velocity on ascent. Full dynamic depth below parallel with 2s eccentric pause.
+                </div>
+              </div>
+
+              <!-- Exercise 02 -->
+              <div class="exercise-spec-card">
+                <div class="exercise-header-row">
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="order-badge">02</span>
+                    <div>
+                      <div style="font-size: 14px; font-weight: 800; color: #fff;">Dumbbell Romanian Deadlift</div>
+                      <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">HAMSTRINGS / GLUTES &bull; URETHANE DB</div>
+                    </div>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 14px;">
+                    <div style="text-align: right;">
+                      <div style="font-size: 13px; font-weight: 800; color: #fff;">4 SETS &times; 8 REPS</div>
+                      <div style="font-size: 11px; color: var(--primary-red); font-weight: 700;">42.5 KG EACH</div>
+                    </div>
+                    <div class="exercise-check-box" style="width: 22px; height: 22px; border: 1.5px solid var(--primary-red); border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                      <span style="color: #fff; font-size: 12px; font-weight: 800;">&#10003;</span>
+                    </div>
+                  </div>
+                </div>
+                <div style="font-size: 11.5px; color: #94a3b8; background: rgba(0,0,0,0.25); padding: 8px 10px; border-radius: 6px; line-height: 1.4;">
+                  <strong>Directive:</strong> Neutral spine preservation. Controlled hip hinge until deep hamstring stretch before hip extension.
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Right: Certified Trainers Roster -->
+            <div class="chart-panel">
+              <div class="chart-header">
+                <div>
+                  <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">TRAINER ENTITY REGISTRY</div>
+                  <h3 style="font-size: 16px; font-weight: 800; color: #fff;">CERTIFIED TRAINERS ROSTER</h3>
+                  <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">
+                    Real-time athlete quota, active specialized tracks, and assignment capability per coach.
+                  </div>
+                </div>
+                <span class="live-dot" style="background: var(--primary-red);"></span>
+              </div>
+
+              <!-- Trainer 1 -->
+              <div class="trainer-roster-item">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <div class="initials-avatar">ER</div>
+                  <div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                      <span style="font-weight: 700; color: #fff; font-size: 14px;">Elena Rostova</span>
+                      <span style="font-size: 10px; font-family: monospace; color: var(--text-muted);">TR-01</span>
+                    </div>
+                    <div style="font-size: 11.5px; color: #60a5fa;">Olympic Weightlifting</div>
+                    <div style="font-size: 10.5px; color: var(--text-muted);">8 YRS EXP &bull; USAW-L3</div>
+                  </div>
+                </div>
+
+                <div style="text-align: right;">
+                  <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase;">ACTIVE LOAD</div>
+                  <div style="font-size: 12.5px; font-weight: 800; color: #fff; margin-bottom: 6px;" id="trainer-load-TR-01">6 / 8 ATHLETES</div>
+                  <button class="btn-primary-action btn-assign-trainer" data-trainer="TR-01" style="padding: 4px 10px; font-size: 11px;">
+                    + ASSIGN TRAINER
+                  </button>
+                </div>
+              </div>
+
+              <!-- Trainer 2 -->
+              <div class="trainer-roster-item">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <div class="initials-avatar">MC</div>
+                  <div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                      <span style="font-weight: 700; color: #fff; font-size: 14px;">Marcus Chen</span>
+                      <span style="font-size: 10px; font-family: monospace; color: var(--text-muted);">TR-04</span>
+                    </div>
+                    <div style="font-size: 11.5px; color: #60a5fa;">Biomechanics &amp; Power</div>
+                    <div style="font-size: 10.5px; color: var(--text-muted);">11 YRS EXP &bull; MS KINES</div>
+                  </div>
+                </div>
+
+                <div style="text-align: right;">
+                  <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase;">ACTIVE LOAD</div>
+                  <div style="font-size: 12.5px; font-weight: 800; color: #fff; margin-bottom: 6px;" id="trainer-load-TR-04">7 / 8 ATHLETES</div>
+                  <button class="btn-primary-action btn-assign-trainer" data-trainer="TR-04" style="padding: 4px 10px; font-size: 11px;">
+                    + ASSIGN TRAINER
+                  </button>
+                </div>
+              </div>
+
+              <!-- Trainer 3 -->
+              <div class="trainer-roster-item">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <div class="initials-avatar">DB</div>
+                  <div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                      <span style="font-weight: 700; color: #fff; font-size: 14px;">David Brooks</span>
+                      <span style="font-size: 10px; font-family: monospace; color: var(--text-muted);">TR-07</span>
+                    </div>
+                    <div style="font-size: 11.5px; color: #60a5fa;">Conditioning &amp; MetCon</div>
+                    <div style="font-size: 10.5px; color: var(--text-muted);">6 YRS EXP &bull; CrossFit L2</div>
+                  </div>
+                </div>
+
+                <div style="text-align: right;">
+                  <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase;">ACTIVE LOAD</div>
+                  <div style="font-size: 12.5px; font-weight: 800; color: #fff; margin-bottom: 6px;" id="trainer-load-TR-07">4 / 8 ATHLETES</div>
+                  <button class="btn-primary-action btn-assign-trainer" data-trainer="TR-07" style="padding: 4px 10px; font-size: 11px;">
+                    + ASSIGN TRAINER
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- =====================================================================
+       Modals
+       ===================================================================== -->
+  
+  <!-- Add Member Modal -->
+  <div class="terminal-modal" id="modalAddMember">
+    <div class="modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 style="font-size: 18px; font-weight: 800; color: #fff;">+ ADD ATHLETE TO ROSTER</h3>
+        <span style="cursor: pointer; font-size: 18px; color: var(--text-muted);" onclick="closeModal('modalAddMember')">&times;</span>
+      </div>
+
+      <form id="formAddMemberModal">
+        <div style="margin-bottom: 14px;">
+          <label style="font-size: 12px; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 6px;">FULL NAME</label>
+          <input type="text" id="newMemName" class="scan-input-box" style="height: 40px;" placeholder="e.g. Liam Vance" required>
+        </div>
+
+        <div style="margin-bottom: 14px;">
+          <label style="font-size: 12px; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 6px;">EMAIL ADDRESS</label>
+          <input type="email" id="newMemEmail" class="scan-input-box" style="height: 40px;" placeholder="e.g. liam.v@apex.io" required>
+        </div>
+
+        <div style="margin-bottom: 14px;">
+          <label style="font-size: 12px; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 6px;">PHONE NUMBER</label>
+          <input type="text" id="newMemPhone" class="scan-input-box" style="height: 40px;" placeholder="e.g. +1 (555) 789-0123" required>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <label style="font-size: 12px; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 6px;">MEMBERSHIP PLAN</label>
+          <select id="newMemPlan" class="scan-input-box" style="height: 40px; cursor: pointer;">
+            <option value="Annual Platinum Ultra">Annual Platinum Ultra (12 Months) &bull; &#8377;8,999</option>
+            <option value="Semi Annual Pro">Semi Annual Pro (6 Months) &bull; &#8377;4,999</option>
+            <option value="Monthly Plus+">Monthly Plus+ (Auto-renews, No Lock-in) &bull; &#8377;2,999</option>
+            <option value="Student Membership">Student Membership (28 Days Plan) &bull; &#8377;899</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-primary-action" style="width: 100%; height: 42px; justify-content: center;">
+          REGISTER ATHLETE &amp; SYNC DATABASE
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Log Payment Modal -->
+  <div class="terminal-modal" id="modalLogPayment">
+    <div class="modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 style="font-size: 18px; font-weight: 800; color: #fff;">+ LOG MANUAL PAYMENT</h3>
+        <span style="cursor: pointer; font-size: 18px; color: var(--text-muted);" onclick="closeModal('modalLogPayment')">&times;</span>
+      </div>
+
+      <form id="formLogPaymentModal">
+        <div style="margin-bottom: 14px;">
+          <label style="font-size: 12px; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 6px;">MEMBER NAME / ID</label>
+          <input type="text" id="newPayMember" class="scan-input-box" style="height: 40px;" placeholder="e.g. Alicia Forsberg" required>
+        </div>
+
+        <div style="margin-bottom: 14px;">
+          <label style="font-size: 12px; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 6px;">ITEM / PLAN</label>
+          <input type="text" id="newPayPlan" class="scan-input-box" style="height: 40px;" placeholder="e.g. Annual Platinum Ultra" required>
+        </div>
+
+        <div style="margin-bottom: 14px;">
+          <label style="font-size: 12px; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 6px;">AMOUNT (INR &#8377;)</label>
+          <input type="number" step="0.01" id="newPayAmount" class="scan-input-box" style="height: 40px;" placeholder="2999.00" required>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <label style="font-size: 12px; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 6px;">PAYMENT METHOD</label>
+          <select id="newPayMethod" class="scan-input-box" style="height: 40px; cursor: pointer;">
+            <option value="UPI / PhonePe AutoPay">UPI / PhonePe AutoPay</option>
+            <option value="UPI / GPay (Desk-01)">UPI / GPay (Desk-01)</option>
+            <option value="UPI / Razorpay Smart QR">UPI / Razorpay Smart QR</option>
+            <option value="RuPay / POS Terminal">RuPay / POS Terminal</option>
+            <option value="Net Banking (NEFT / IMPS)">Net Banking (NEFT / IMPS)</option>
+            <option value="Cash Counter">Cash Counter</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-primary-action" style="width: 100%; height: 42px; justify-content: center;">
+          AUTHORIZE &amp; PRINT RECEIPT
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Create Plan Modal -->
+  <div class="terminal-modal" id="modalCreatePlan">
+    <div class="modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 style="font-size: 18px; font-weight: 800; color: #fff;">+ CREATE NEW MEMBERSHIP PLAN</h3>
+        <span style="cursor: pointer; font-size: 18px; color: var(--text-muted);" onclick="closeModal('modalCreatePlan')">&times;</span>
+      </div>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+        Add a new tier configuration to the MariaDB <code>membership_plans</code> table.
+      </p>
+      <form id="formCreatePlan" onsubmit="publishNewPlan(event)">
+        <input type="text" id="newPlanTitle" class="scan-input-box" placeholder="Plan Title (e.g. Weekend Warrior Pass)" required style="margin-bottom: 12px; height: 40px; width: 100%;">
+        <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+          <input type="number" id="newPlanPrice" class="scan-input-box" placeholder="Price (INR ₹)" required min="0" step="1" style="height: 40px; width: 50%;">
+          <input type="number" id="newPlanDays" class="scan-input-box" placeholder="Duration (Days, e.g. 30)" required min="1" value="30" style="height: 40px; width: 50%;">
+        </div>
+        <input type="text" id="newPlanDesc" class="scan-input-box" placeholder="Short Description / Inclusions" style="margin-bottom: 16px; height: 40px; width: 100%;">
+        <button type="submit" class="btn-primary-action" id="btnPublishPlan" style="width: 100%; height: 42px; justify-content: center;">
+          PUBLISH PLAN TO MARIADB
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Create Workout Modal -->
+  <div class="terminal-modal" id="modalCreateWorkout">
+    <div class="modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 style="font-size: 18px; font-weight: 800; color: #fff;">+ CREATE WORKOUT PROTOCOL</h3>
+        <span style="cursor: pointer; font-size: 18px; color: var(--text-muted);" onclick="closeModal('modalCreateWorkout')">&times;</span>
+      </div>
+      <input type="text" class="scan-input-box" placeholder="Protocol Name (e.g. 8-Week Strength & Peaking)" style="margin-bottom: 12px; height: 40px;">
+      <input type="text" class="scan-input-box" placeholder="Target Athlete (e.g. Marcus Vance #MEM-2041)" style="margin-bottom: 16px; height: 40px;">
+      <button class="btn-primary-action" style="width: 100%; height: 42px; justify-content: center;" onclick="closeModal('modalCreateWorkout'); showToast('Workout protocol assigned to athlete!');">
+        ASSIGN PROTOCOL TO COHORT
+      </button>
+    </div>
+  </div>
+
+  <script src="rbac-guard.js"></script>
+  <script src="terminal.js"></script>
+</body>
+</html>

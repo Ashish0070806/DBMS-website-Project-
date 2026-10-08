@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Member Portal - O₂ Fitness</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+</head>
+<body class="dashboard-layout">
+  <div class="bg-grid-overlay"></div>
+
+  <!-- Member Portal Header -->
+  <header class="dash-header">
+    <div class="brand-wrapper">
+      <img src="logo.svg" alt="O₂ FITNESS" class="brand-logo-img">
+      <span class="brand-title" style="font-size: 13px; opacity: 0.8; letter-spacing: 1.5px; margin-left: 6px;">&bull; MEMBER PORTAL</span>
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        <span id="memberTierBadge">VIP Pass: Active</span>
+      </div>
+    </div>
+
+    <div class="dash-user-panel">
+      <div class="user-avatar-pill">
+        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150" alt="Member" class="avatar-img" id="memberAvatar">
+        <div class="user-info-text">
+          <span class="user-name-title" id="memberName">Sarah Jenkins</span>
+          <span class="user-role-sub" id="memberIdTag">Member ID: MEM-001</span>
+        </div>
+      </div>
+      <button class="btn-logout" id="btnLogoutMember" title="Sign out">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        Sign Out
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="dash-content">
+    
+    <!-- Member KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-title">Current Streak</span>
+          <div class="kpi-icon">🔥</div>
+        </div>
+        <div class="kpi-value" id="memberStreak">14 Days</div>
+        <div class="kpi-subtitle">▲ Top 5% most consistent</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-title">Membership Status</span>
+          <div class="kpi-icon">💎</div>
+        </div>
+        <div class="kpi-value" style="font-size: 20px; color: #60a5fa;" id="memberPlanName">Annual Platinum Ultra (&#8377;8,999)</div>
+        <div class="kpi-subtitle">Valid through Dec 31, 2026</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-title">Account Dues</span>
+          <div class="kpi-icon">&#128179;</div>
+        </div>
+        <div class="kpi-value" style="color: #10b981;" id="memberDues">&#8377;0.00</div>
+        <div class="kpi-subtitle">Auto-pay enabled</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-title">Assigned Coach</span>
+          <div class="kpi-icon">🏆</div>
+        </div>
+        <div class="kpi-value" style="font-size: 20px;" id="memberTrainer">Elena Rostova</div>
+        <div class="kpi-subtitle">Next PT Session: Tomorrow 10 AM</div>
+      </div>
+    </div>
+
+    <!-- Digital ID Pass & Workout Routine -->
+    <div class="two-col-grid" style="margin-bottom: 30px;">
+      
+      <!-- Digital NFC ID Card -->
+      <div class="dash-panel" style="margin-bottom: 0;">
+        <div class="panel-header">
+          <div class="panel-title"><span>💳</span> Digital Fast-Pass NFC Credential</div>
+        </div>
+
+        <div style="background: linear-gradient(135deg, #1b2133 0%, #0d1220 100%); border: 1px solid rgba(255, 42, 109, 0.4); border-radius: 18px; padding: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.5); position: relative; overflow: hidden;">
+          <div style="position: absolute; right: -20px; top: -20px; width: 140px; height: 140px; background: radial-gradient(circle, rgba(240, 34, 83, 0.25) 0%, transparent 70%); border-radius: 50%;"></div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+            <div style="font-size: 16px; font-weight: 800; color: #fff; letter-spacing: 1px;">O₂ FITNESS &bull; ALL-ACCESS</div>
+            <div style="background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.4); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px;">VERIFIED</div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+            <img id="cardPassAvatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150" alt="Sarah" style="width: 56px; height: 56px; border-radius: 12px; border: 2px solid #ff2a6d;">
+            <div>
+              <div id="cardPassName" style="font-size: 18px; font-weight: 700; color: #fff;">Sarah Jenkins</div>
+              <div id="cardPassId" style="font-size: 13px; font-family: monospace; color: #ff3366;">ID: MEM-001</div>
+            </div>
+          </div>
+
+          <!-- Barcode simulation -->
+          <div style="background: #fff; border-radius: 8px; padding: 8px 12px; display: flex; flex-direction: column; align-items: center; gap: 4px;">
+            <div style="letter-spacing: 5px; font-family: monospace; font-size: 22px; color: #111; font-weight: 900;">||| | |||| | ||| |||| |</div>
+            <div style="font-size: 10px; color: #555; font-family: monospace;">SCAN AT STATION 01 TO CHECK IN</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Today's Workout & Personal Training -->
+      <div class="dash-panel" style="margin-bottom: 0;">
+        <div class="panel-header">
+          <div class="panel-title"><span>🏋️</span> Assigned Training Protocol</div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="padding: 14px; background: var(--bg-input); border-radius: 10px; border-left: 3px solid #ff2a6d;">
+            <div style="font-size: 14px; font-weight: 600; color: #fff;">Today: Upper Body Hypertrophy (Chest & Back)</div>
+            <div style="font-size: 12.5px; color: var(--text-muted); margin-top: 4px;">Incline DB Press (4x10), Chest-Supported Rows (4x12), Cable Lateral Raises (3x15)</div>
+          </div>
+
+          <div style="padding: 14px; background: var(--bg-input); border-radius: 10px; border-left: 3px solid #10b981;">
+            <div style="font-size: 14px; font-weight: 600; color: #fff;">Cardio & Recovery Routine</div>
+            <div style="font-size: 12.5px; color: var(--text-muted); margin-top: 4px;">20 min Incline Treadmill Walk @ 12% incline (Heart Rate Zone 2) + 10 min Sauna</div>
+          </div>
+
+          <div style="padding: 14px; background: var(--bg-input); border-radius: 10px; border-left: 3px solid #60a5fa;">
+            <div style="font-size: 14px; font-weight: 600; color: #fff;">Dietary Guidance & Electrolytes</div>
+            <div style="font-size: 12.5px; color: var(--text-muted); margin-top: 4px;">Target: 140g protein daily &bull; 3L hydration &bull; Pre-workout creatine</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Attendance History -->
+    <div class="dash-panel">
+      <div class="panel-header">
+        <div class="panel-title"><span>📅</span> Recent Visit Logs (TRM-01)</div>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Date & Time</th>
+            <th>Terminal Location</th>
+            <th>Assigned Locker</th>
+            <th>Access Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Today, 08:32 AM</td>
+            <td>Terminal 01: Downtown Flagship</td>
+            <td><code style="color: #ff2a6d;">L-104</code></td>
+            <td><span class="badge-status active">Verified</span></td>
+          </tr>
+          <tr>
+            <td>Yesterday, 07:45 AM</td>
+            <td>Terminal 01: Downtown Flagship</td>
+            <td><code style="color: #ff2a6d;">L-098</code></td>
+            <td><span class="badge-status active">Verified</span></td>
+          </tr>
+          <tr>
+            <td>3 Days Ago, 18:20 PM</td>
+            <td>Terminal 02: North Wing Express</td>
+            <td><code style="color: #ff2a6d;">L-211</code></td>
+            <td><span class="badge-status active">Verified</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <script src="rbac-guard.js"></script>
+  <script src="member.js"></script>
+</body>
+</html>

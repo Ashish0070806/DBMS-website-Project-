@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>O₂ Fitness - Database Management & Operator Terminal</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+</head>
+<body>
+
+  <!-- Ambient Background Elements -->
+  <div class="bg-grid-overlay"></div>
+  <div class="bg-ambient-glow"></div>
+
+  <!-- Top Header Navigation -->
+  <header class="top-header">
+    <div class="brand-wrapper">
+      <img src="logo.svg" alt="O₂ FITNESS" class="brand-logo-img">
+      <div class="status-badge" id="dbClusterBadge" title="MySQL Cluster Health Status">
+        <span class="status-dot"></span>
+        <span id="dbStatusText">DB Cluster: Active</span>
+      </div>
+    </div>
+
+    <div class="terminal-badge" title="Active Terminal Node">
+      <span class="terminal-dot"></span>
+      <span id="terminalName">Terminal 01: Downtown Flagship</span>
+    </div>
+  </header>
+
+  <!-- Main Center Form Container -->
+  <main class="main-wrapper">
+    <div class="auth-card">
+      <!-- Neon Top Glow Line -->
+      <div class="card-top-glow"></div>
+
+      <!-- Card Header with Security Lock Icon -->
+      <div class="card-header">
+        <div class="security-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <h1 class="card-title" id="authTitle">Log in to O₂ Fitness</h1>
+        <p class="card-subtitle" id="authSubtitle">Database Management & Operator Terminal</p>
+
+        <!-- Segmented Mode Tabs: Log In vs Create Account -->
+        <div class="auth-mode-switch">
+          <button type="button" class="mode-tab-btn active" id="tabLogin">Log In</button>
+          <button type="button" class="mode-tab-btn" id="tabRegister">Create New Account</button>
+        </div>
+      </div>
+
+      <!-- Live Feedback Alert Banner -->
+      <div class="alert-banner" id="loginAlert">
+        <span id="alertMessage"></span>
+      </div>
+
+      <!-- =================================================================
+           1. LOG IN FORM
+           ================================================================= -->
+      <form id="loginForm" autocomplete="off">
+        
+        <!-- Field 1: Email or Staff/Member ID -->
+        <div class="form-group">
+          <div class="label-row">
+            <label class="input-label" for="operatorIdentity">Email Address or Account ID</label>
+          </div>
+          <div class="input-container">
+            <input 
+              type="text" 
+              id="operatorIdentity" 
+              class="form-input" 
+              placeholder="e.g. name@gym.com, STF-101, or MEM-101" 
+              required
+            >
+            <span class="input-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <!-- Field 2: Password -->
+        <div class="form-group">
+          <div class="label-row">
+            <label class="input-label" for="operatorPassword">Password</label>
+            <a href="javascript:void(0)" class="link-secondary" id="btnForgotPass">Forgot passcode?</a>
+          </div>
+          <div class="input-container">
+            <input 
+              type="password" 
+              id="operatorPassword" 
+              class="form-input" 
+              placeholder="Enter your security password" 
+              required
+            >
+            <button type="button" class="input-icon-btn" id="togglePasswordBtn" title="Toggle password visibility">
+              <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Field 3: Operator Role & Station -->
+        <div class="form-group">
+          <div class="label-row">
+            <label class="input-label" for="operatorRole">Account Role & Station</label>
+          </div>
+          <div class="input-container">
+            <select id="operatorRole" class="form-select">
+              <option value="staff" selected>Staff / Operator Terminal</option>
+              <option value="member">Member / Athlete Portal</option>
+              <option value="admin">System Administrator (Root Access)</option>
+            </select>
+            <span class="input-icon" style="pointer-events: none;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <!-- Field 4: Remember Workstation Profile -->
+        <label class="checkbox-container">
+          <input type="checkbox" id="rememberProfile" checked>
+          <span class="custom-checkbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </span>
+          <span class="checkbox-label">Remember workstation profile</span>
+        </label>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn-submit" id="btnLogin">
+          <span id="btnText">Log In</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+
+      </form>
+
+      <!-- =================================================================
+           2. CREATE NEW ACCOUNT FORM (Members & Staff)
+           ================================================================= -->
+      <form id="registerForm" style="display: none;" autocomplete="off">
+        
+        <!-- Account Type Selector -->
+        <div class="form-group">
+          <div class="label-row">
+            <label class="input-label">Account Category</label>
+          </div>
+          <div class="role-pills-row">
+            <button type="button" class="role-pill-btn active" id="btnRoleMember" data-regrole="member">
+              👤 New Member
+            </button>
+            <button type="button" class="role-pill-btn" id="btnRoleStaff" data-regrole="staff">
+              🛡️ New Staff / Operator
+            </button>
+          </div>
+        </div>
+
+        <!-- Full Name -->
+        <div class="form-group">
+          <div class="label-row">
+            <label class="input-label" for="regFullName">Full Name</label>
+          </div>
+          <div class="input-container">
+            <input 
+              type="text" 
+              id="regFullName" 
+              class="form-input" 
+              placeholder="e.g. Rahul Sharma" 
+              required
+            >
+          </div>
+        </div>
+
+        <!-- Email Address -->
+        <div class="form-group">
+          <div class="label-row">
+            <label class="input-label" for="regEmail">Email Address</label>
+          </div>
+          <div class="input-container">
+            <input 
+              type="email" 
+              id="regEmail" 
+              class="form-input" 
+              placeholder="e.g. rahul.sharma@example.com" 
+              required
+            >
+          </div>
+        </div>
+
+        <!-- Phone Number -->
+        <div class="form-group">
+          <div class="label-row">
+            <label class="input-label" for="regPhone">Phone Number</label>
+          </div>
+          <div class="input-container">
+            <input 
+              type="tel" 
+              id="regPhone" 
+              class="form-input" 
+              placeholder="e.g. +91 98765 43210" 
+              required
+            >
+          </div>
+        </div>
+
+        <!-- Member-Specific Field: Membership Plan (in INR ₹) -->
+        <div class="form-group" id="regPlanGroup">
+          <div class="label-row">
+            <label class="input-label" for="regPlan">Select Membership Plan (INR ₹)</label>
+          </div>
+          <div class="input-container">
+            <select id="regPlan" class="form-select">
+              <option value="PL-001" selected>Annual Platinum Ultra (12 Months / Yearly) &bull; ₹8,999</option>
+              <option value="PL-002">Semi Annual Pro (6 Months) &bull; ₹4,999</option>
+              <option value="PL-003">Monthly Plus+ (Auto-renews, No Lock-in) &bull; ₹2,999</option>
+              <option value="PL-004">Student Membership (28 Days Plan) &bull; ₹899</option>
+            </select>
+            <span class="input-icon" style="pointer-events: none;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </span>
+          </div>
+          <div style="font-size: 11px; color: #ff5e7e; margin-top: 4px;" id="planFeaturesNote">
+            &bull; All club access, plan 12 months/yearly &bull; ₹8,999
+          </div>
+        </div>
+
+        <!-- Staff-Specific Fields -->
+        <div id="regStaffFields" style="display: none;">
+          <div class="form-group">
+            <div class="label-row">
+              <label class="input-label" for="regStation">Assigned Station / Department</label>
+            </div>
+            <div class="input-container">
+              <select id="regStation" class="form-select">
+                <option value="Front-Desk Terminal 01" selected>Front-Desk Terminal 01 (Reception)</option>
+                <option value="Floor Operations & Fitness">Floor Operations &amp; Fitness Wing</option>
+                <option value="Strength Arena & Locker Vault">Strength Arena &amp; Locker Vault</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <div class="label-row">
+            <label class="input-label" for="regPassword">Create Password</label>
+          </div>
+          <div class="input-container">
+            <input 
+              type="password" 
+              id="regPassword" 
+              class="form-input" 
+              placeholder="Minimum 4 characters" 
+              required
+            >
+          </div>
+        </div>
+
+        <!-- Submit Registration Button -->
+        <button type="submit" class="btn-submit" id="btnRegister">
+          <span id="btnRegText">Register &amp; Save to Database</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+
+      </form>
+
+      <!-- Card Footer -->
+      <div class="card-footer" id="cardFooterText">
+        <span>Need assistance?</span> 
+        <a href="javascript:void(0)" id="btnHelpModal">System access guide</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Help Modal -->
+  <div class="modal-overlay" id="modalHelp">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('modalHelp')">&times;</button>
+      <h3 style="font-size: 20px; margin-bottom: 12px; color: #fff;">ℹ️ O₂ Fitness Account Access</h3>
+      <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5;">
+        You can create a new account for <strong>Members</strong> or <strong>Staff</strong> using the <em>Create New Account</em> tab. The email and password will be saved directly into the MySQL database.
+      </p>
+      <div style="background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 14px; font-size: 12.5px; line-height: 1.8;">
+        <div><strong style="color: #ff3366;">Membership Tiers (INR):</strong></div>
+        <div>1. <strong>Annual Platinum Ultra</strong> &bull; 12 Months / Yearly &bull; <strong>₹8,999</strong></div>
+        <div>2. <strong>Semi Annual Pro</strong> &bull; 6 Months &bull; <strong>₹4,999</strong></div>
+        <div>3. <strong>Monthly Plus+</strong> &bull; Monthly (No Lock-in) &bull; <strong>₹2,999</strong></div>
+        <div>4. <strong>Student Membership</strong> &bull; 28 Days Plan &bull; <strong>₹899</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

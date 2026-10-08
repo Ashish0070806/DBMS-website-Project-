@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Front-Desk Terminal - O₂ Fitness</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+</head>
+<body class="dashboard-layout">
+  <div class="bg-grid-overlay"></div>
+
+  <!-- Terminal Top Header -->
+  <header class="dash-header">
+    <div class="brand-wrapper">
+      <img src="logo.svg" alt="O₂ FITNESS" class="brand-logo-img">
+      <span class="brand-title" style="font-size: 13px; opacity: 0.8; letter-spacing: 1.5px; margin-left: 6px;">&bull; FRONT-DESK TERMINAL</span>
+      <div class="terminal-badge">
+        <span class="terminal-dot"></span>
+        <span>TRM-01: Downtown Flagship Station</span>
+      </div>
+    </div>
+
+    <div class="dash-user-panel">
+      <div class="user-avatar-pill">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" alt="Operator" class="avatar-img" id="staffAvatar">
+        <div class="user-info-text">
+          <span class="user-name-title" id="staffName">Alex Morgan</span>
+          <span class="user-role-sub">Operator &bull; Morning Shift (STF-001)</span>
+        </div>
+      </div>
+      <button class="btn-logout" id="btnLogoutStaff" title="Exit Operator Station">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        Sign Out
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Terminal Operations -->
+  <main class="dash-content">
+    
+    <!-- Operator KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-title">Today's Check-ins</span>
+          <div class="kpi-icon">🎫</div>
+        </div>
+        <div class="kpi-value" id="kpiTodayCheckins">128</div>
+        <div class="kpi-subtitle">▲ Peak hour traffic steady</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-title">Current Gym Floor Occupancy</span>
+          <div class="kpi-icon">🏋️</div>
+        </div>
+        <div class="kpi-value" id="kpiFloorCount">42 <span style="font-size: 16px; color: var(--text-muted);">/ 120 max</span></div>
+        <div class="kpi-subtitle">● Safe zone capacity</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-title">Available Lockers</span>
+          <div class="kpi-icon">🔒</div>
+        </div>
+        <div class="kpi-value">78</div>
+        <div class="kpi-subtitle">Wing A & Wing B open</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-title">Terminal Node Status</span>
+          <div class="kpi-icon">📡</div>
+        </div>
+        <div class="kpi-value" style="font-size: 22px; color: #10b981;">Online & Synced</div>
+        <div class="kpi-subtitle">Latency: 12ms to MySQL</div>
+      </div>
+    </div>
+
+    <!-- Check-in Action Station & Live Lookup Grid -->
+    <div class="two-col-grid" style="margin-bottom: 30px;">
+      
+      <!-- Rapid Check-in Form -->
+      <div class="dash-panel" style="margin-bottom: 0;">
+        <div class="panel-header">
+          <div class="panel-title"><span>⚡</span> Rapid Member Check-in Scanner</div>
+        </div>
+
+        <form id="checkinForm">
+          <div class="form-group">
+            <label class="input-label">Member ID / RFID Code or Email</label>
+            <div class="input-container">
+              <input 
+                type="text" 
+                id="scanMemberCode" 
+                class="form-input" 
+                placeholder="Scan RFID or type MEM-001..." 
+                required
+              >
+            </div>
+            <div style="margin-top: 8px; display: flex; gap: 8px;">
+              <button type="button" class="chip-btn" onclick="fillMemberScan('MEM-001')">Quick: Sarah (MEM-001)</button>
+              <button type="button" class="chip-btn" onclick="fillMemberScan('MEM-002')">David (MEM-002)</button>
+              <button type="button" class="chip-btn" onclick="fillMemberScan('MEM-004')">Expired: Jordan</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="input-label">Locker Number Assignment</label>
+            <input type="text" id="scanLockerNum" class="form-input" value="L-105" required>
+          </div>
+
+          <button type="submit" class="btn-submit" id="btnProcessCheckin">
+            Authorize Entry & Assign Locker
+          </button>
+        </form>
+
+        <div id="checkinFeedback" style="margin-top: 16px; display: none;"></div>
+      </div>
+
+      <!-- Member Profile Preview Card -->
+      <div class="dash-panel" style="margin-bottom: 0;">
+        <div class="panel-header">
+          <div class="panel-title"><span>👤</span> Scanned Member Profile</div>
+        </div>
+
+        <div id="memberProfileCard" style="display: flex; gap: 20px; align-items: center; background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 20px;">
+          <img id="cardMemberAvatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150" alt="Member" style="width: 72px; height: 72px; border-radius: 50%; border: 2px solid #10b981;">
+          <div>
+            <h4 id="cardMemberName" style="font-size: 18px; color: #fff; margin-bottom: 4px;">Sarah Jenkins</h4>
+            <div id="cardMemberPlan" style="font-size: 13px; color: #60a5fa; font-weight: 500; margin-bottom: 6px;">Annual Platinum Ultra (&#8377;8,999)</div>
+            <div style="font-size: 12px; color: var(--text-muted);">
+              <div>Status: <span id="cardMemberStatus" style="color: #10b981; font-weight: 600;">ACTIVE</span></div>
+              <div>Emergency: <span id="cardMemberContact">Rohan Sharma (+91 98765 11223)</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Recent Check-in Feed Table -->
+    <div class="dash-panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>📜</span> Live Station Check-In Log (MySQL: <code>checkins</code> table)
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Member ID</th>
+              <th>Member Name</th>
+              <th>Locker</th>
+              <th>Terminal</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="checkinFeedBody">
+            <!-- Dynamically Rendered -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="rbac-guard.js"></script>
+  <script src="staff.js"></script>
+</body>
+</html>

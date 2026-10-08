@@ -1,0 +1,25 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start O2 Gym OS (PHP Server)",
+      "type": "shell",
+      "command": "php -S 127.0.0.1:8000",
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Open O2 Gym OS in Browser",
+      "type": "shell",
+      "command": "start http://127.0.0.1:8000",
+      "windows": {
+        "command": "start http://127.0.0.1:8000"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

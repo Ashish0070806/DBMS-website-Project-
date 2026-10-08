@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Terminal - O₂ Fitness</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+</head>
+<body class="dashboard-layout">
+  <div class="bg-grid-overlay"></div>
+
+  <!-- Dashboard Top Header -->
+  <header class="dash-header">
+    <div class="brand-wrapper">
+      <img src="logo.svg" alt="O₂ FITNESS" class="brand-logo-img">
+      <span class="brand-title" style="font-size: 13px; opacity: 0.8; letter-spacing: 1.5px; margin-left: 6px;">&bull; ADMIN TERMINAL</span>
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        <span id="adminDbStatus">DB Cluster: Active (MySQL 8.0)</span>
+      </div>
+    </div>
+
+    <div class="dash-user-panel">
+      <div class="user-avatar-pill">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" alt="Admin" class="avatar-img" id="adminAvatar">
+        <div class="user-info-text">
+          <span class="user-name-title" id="adminName">Marcus Vance</span>
+          <span class="user-role-sub">Root Administrator (ADM-001)</span>
+        </div>
+      </div>
+      <button class="btn-logout" id="btnLogoutAdmin" title="Log out of Terminal">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        Sign Out
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content Body -->
+  <main class="dash-content">
+    
+    <!-- KPI Overview Cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-title">Total Registered Members</span>
+          <div class="kpi-icon">👥</div>
+        </div>
+        <div class="kpi-value" id="kpiTotalMembers">4</div>
+        <div class="kpi-subtitle">▲ 100% Verified in MySQL</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-title">Active Memberships</span>
+          <div class="kpi-icon">⚡</div>
+        </div>
+        <div class="kpi-value" id="kpiActiveMembers">3</div>
+        <div class="kpi-subtitle">▲ 75% active rate</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-title">Staff On Duty</span>
+          <div class="kpi-icon">🛡️</div>
+        </div>
+        <div class="kpi-value" id="kpiStaffCount">2</div>
+        <div class="kpi-subtitle">Terminal 01 & Floor Active</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-title">Database Storage & Queries</span>
+          <div class="kpi-icon">💾</div>
+        </div>
+        <div class="kpi-value" id="kpiDbQueries">1,428</div>
+        <div class="kpi-subtitle">InnoDB engine &bull; 0 slow queries</div>
+      </div>
+    </div>
+
+    <!-- Member Management Section -->
+    <div class="dash-panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>📋</span> Member Records Management (MySQL Table: <code>members</code>)
+        </div>
+        <div class="panel-actions">
+          <div class="search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="memberSearchInput" class="search-input" placeholder="Search by name, ID, plan...">
+          </div>
+          <button class="btn-primary-action" id="btnOpenAddMember">
+            <span>+</span> Register Member
+          </button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Member ID</th>
+              <th>Full Name</th>
+              <th>Email</th>
+              <th>Membership Plan</th>
+              <th>Assigned Trainer</th>
+              <th>Streak</th>
+              <th>Dues</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="memberTableBody">
+            <!-- Dynamically Rendered -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Two Columns: Staff Roster & System Audit Logs -->
+    <div class="two-col-grid">
+      <!-- Staff Roster -->
+      <div class="dash-panel">
+        <div class="panel-header">
+          <div class="panel-title"><span>🛡️</span> Terminal Operators Roster</div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Staff ID</th>
+              <th>Name</th>
+              <th>Station</th>
+              <th>Shift</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>STF-001</code></td>
+              <td><strong>Alex Morgan</strong></td>
+              <td>Front-Desk Terminal 01</td>
+              <td>Morning Shift</td>
+              <td><span class="badge-status active">On Duty</span></td>
+            </tr>
+            <tr>
+              <td><code>STF-002</code></td>
+              <td><strong>Elena Rostova</strong></td>
+              <td>Floor Terminal 02</td>
+              <td>Evening Shift</td>
+              <td><span class="badge-status active">On Duty</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Live Audit Logs -->
+      <div class="dash-panel">
+        <div class="panel-header">
+          <div class="panel-title"><span>🔍</span> Real-Time Security & SQL Audit Logs</div>
+        </div>
+        <div style="max-height: 220px; overflow-y: auto; font-family: monospace; font-size: 12.5px;">
+          <ul id="auditLogList" style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
+            <!-- Rendered by JS -->
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Add Member Modal -->
+  <div class="modal-overlay" id="modalAddMember">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('modalAddMember')">✕</button>
+      <h3 style="font-size: 20px; margin-bottom: 6px; color: #fff;">➕ Register New Member to MySQL</h3>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
+        Inserts new record into <code>users</code> and <code>members</code> tables.
+      </p>
+
+      <form id="addMemberForm">
+        <div class="form-group">
+          <label class="input-label">Full Name</label>
+          <input type="text" id="newMemberName" class="form-input" placeholder="e.g. Liam Sterling" required>
+        </div>
+
+        <div class="form-group">
+          <label class="input-label">Email Address</label>
+          <input type="email" id="newMemberEmail" class="form-input" placeholder="e.g. liam.s@o2gym.io" required>
+        </div>
+
+        <div class="form-group">
+          <label class="input-label">Membership Tier</label>
+          <select id="newMemberPlan" class="form-select">
+            <option value="Annual Platinum Ultra">Annual Platinum Ultra (12 Months) &bull; &#8377;8,999</option>
+            <option value="Semi Annual Pro">Semi Annual Pro (6 Months) &bull; &#8377;4,999</option>
+            <option value="Monthly Plus+">Monthly Plus+ (Auto-renews) &bull; &#8377;2,999</option>
+            <option value="Student Membership">Student Membership (28 Days) &bull; &#8377;899</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="input-label">Assigned Trainer</label>
+          <select id="newMemberTrainer" class="form-select">
+            <option value="Coach Elena Rostova">Coach Elena Rostova</option>
+            <option value="Alex Morgan">Alex Morgan</option>
+            <option value="Unassigned">Unassigned</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-submit" style="margin-top: 10px;">
+          Execute SQL INSERT & Save Member
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="rbac-guard.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
